@@ -7,6 +7,10 @@
     "dev": "webpack-dev-server",
     "build": "webpack -p"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dawidsappich/webpack-starter.git"
+  },
   "author": "dawid sappich",
   "license": "ISC",
   "devDependencies": {
