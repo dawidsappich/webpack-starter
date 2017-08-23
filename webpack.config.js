@@ -10,10 +10,15 @@ module.exports = {
 		filename: 'app.bundle.js'
 	},
 	devServer: {
-		// serve files from dist to localhost:8080
+		// serve files from dist to localhost
 		contentBase: path.join(__dirname, 'dist'),
 		// gzip files
-		compress: true
+		compress: true,
+		port: 9000,
+		// Only output when errors or new compilation happen
+		stats: 'minimal',
+		// open a new browser window when starting for the first time
+		open: true
 	},
 	module: {
 		// include css file in index.html
