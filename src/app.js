@@ -1,3 +1,3 @@
 const scss = require('./app.scss')
 
-console.log('webpack-dev-server running');
+console.log([1, 2, 3].map(n => n + 1));

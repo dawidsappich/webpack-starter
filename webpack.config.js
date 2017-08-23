@@ -21,10 +21,21 @@ module.exports = {
 		open: true
 	},
 	module: {
-		// include css file in index.html
 		rules: [
+			// transpile scss to css
 			// executes from right to left
-			{ test: /\.scss$/, use: ExtractTextPlugin.extract(['css-loader', 'sass-loader']) }
+			{ test: /\.scss$/, use: ExtractTextPlugin.extract(['css-loader', 'sass-loader']) },
+			{
+				// transpile es6 to es2015 (es5)
+				test: /\.js$/,
+				exclude: /(node_modules|bower_components)/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['es2015']
+					}
+				}
+			}
 		]
 	},
 	plugins: [
