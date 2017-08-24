@@ -45,6 +45,13 @@ module.exports = {
 						presets: ['es2015']
 					}
 				}
+			},
+			{
+				// watch for most common image files
+				test: /\.(jpe?g|png|gif|svg)$/i,
+				// output images with hash of 6 letters in folder assets
+				// publicPath to link src to right path in img tags
+				use: ['file-loader?name=assets/[hash:6].[ext]']
 			}
 		]
 	},
