@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); //generates index html
 const ExtractTextPlugin = require("extract-text-webpack-plugin"); //extractstext into seperate file like css
 const webpack = require('webpack');
+const bootstrapWebpackConfig = require('./webpack.bootstrap.config');
 
 const isProductionEnv = process.env.NODE_ENV == 'production';
 const cssDevLoader = ['style-loader', 'css-loader', 'sass-loader'];
@@ -10,9 +11,13 @@ const cssProdLoader = ExtractTextPlugin.extract({
 });
 
 const cssConfig = isProductionEnv ? cssProdLoader : cssDevLoader;
+const bootstrapEntryPoint = isProductionEnv ? bootstrapWebpackConfig.prod : bootstrapWebpackConfig.dev;
 
 module.exports = {
-	entry: './src/app.js',
+	entry: {
+		app: './src/app.js',
+		boostrap: bootstrapEntryPoint
+	},
 	output: {
 		path: path.join(__dirname, 'dist'),
 		filename: '[name].bundle.js'
@@ -52,7 +57,12 @@ module.exports = {
 				// output images with hash of 6 letters in folder assets
 				// publicPath to link src to right path in img tags
 				use: ['file-loader?name=assets/[hash:6].[ext]']
-			}
+			},
+			// load icon fonts
+			{ test: /\.(woff2?|svg)$/, loader: 'url-loader?limit=10000&name=fonts/[name].[ext]' },
+			{ test: /\.(ttf|eot)$/, loader: 'file-loader?name=fonts/[name].[ext]' },
+			// load jquery
+			{ test:/bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/, loader: 'imports-loader?jQuery=jquery' }
 		]
 	},
 	plugins: [
@@ -65,7 +75,7 @@ module.exports = {
 		// extract css into separate file
 		new ExtractTextPlugin({
 			disable: !isProductionEnv,
-			filename: 'app.css',
+			filename: 'css/[name].css',
 			allChunks: true
 		}),
 		// enable hot module replacemnt
